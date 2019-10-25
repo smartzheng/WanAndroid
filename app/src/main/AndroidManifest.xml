@@ -23,7 +23,7 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:targetApi="m">
         <activity
-            android:name=".MainActivity"
+            android:name=".WebActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme">

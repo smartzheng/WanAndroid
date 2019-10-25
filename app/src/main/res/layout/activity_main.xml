@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/wb_container"
-    tools:context=".MainActivity"
+    tools:context=".WebActivity"
     android:orientation="horizontal">
 
 </LinearLayout>

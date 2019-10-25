@@ -3,14 +3,14 @@ package com.smartzheng.wanandroid
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.WindowManager
+import android.webkit.JavascriptInterface
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.gyf.immersionbar.ImmersionBar
 import com.just.agentweb.AgentWeb
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class WebActivity : AppCompatActivity() {
     companion object {
         const val URL = "http://172.16.1.210:3000/"
     }
@@ -20,18 +20,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ImmersionBar.with(this).init()
-        ImmersionBar.with(this)
-                .keyboardEnable(true)
-                .keyboardMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-                .transparentStatusBar()
-                .statusBarDarkFont(true)
+        initAgentWeb()
+    }
+
+    private fun initAgentWeb() {
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(wb_container, LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
                 .createAgentWeb()
                 .ready()
                 .go(URL)
+        mAgentWeb.jsInterfaceHolder?.addJavaObject("jsi", JSI())
+    }
+
+    inner class JSI {
+        @JavascriptInterface
+        fun toWeb(url: String) {
+
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
