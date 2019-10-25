@@ -1,8 +1,8 @@
 package com.smartzheng.wanandroid
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.WindowManager
 import android.webkit.JavascriptInterface
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class WebActivity : AppCompatActivity() {
     companion object {
         const val URL = "http://172.16.1.210:3000/"
+        const val EXTRA_URL = "EXTRA_URL"
     }
 
     private lateinit var mAgentWeb: AgentWeb
@@ -24,19 +25,22 @@ class WebActivity : AppCompatActivity() {
     }
 
     private fun initAgentWeb() {
+        val url = intent.getStringExtra(EXTRA_URL) ?: URL
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(wb_container, LinearLayout.LayoutParams(-1, -1))
-                .useDefaultIndicator()
+                .useDefaultIndicator(getColor(R.color.colorPrimary))
                 .createAgentWeb()
                 .ready()
-                .go(URL)
+                .go(url)
         mAgentWeb.jsInterfaceHolder?.addJavaObject("jsi", JSI())
     }
 
     inner class JSI {
         @JavascriptInterface
         fun toWeb(url: String) {
-
+            val intent = Intent(this@WebActivity, WebActivity::class.java)
+            intent.putExtra(EXTRA_URL, url)
+            startActivity(intent)
         }
     }
 
